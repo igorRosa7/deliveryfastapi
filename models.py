@@ -27,14 +27,20 @@ class Usuario(Base):
 class Pedido(Base):
     __tablename__ = "pedidos"
 
-    STATUS_PEDIDOS = (
-        ("PENDENTE", "PENDENTE"),
-        ("CANCELADO", "CANCELADO"),
-        ("FINALIZADO", "FINALIZADO"),
-    )
+ #   STATUS_PEDIDOS = (
+ #      ("PENDENTE", "PENDENTE"),
+ #     ("CANCELADO", "CANCELADO"),
+ #    ("FINALIZADO", "FINALIZADO"),
+ # )
+ #troquei ChoiceType(choices=STATUS_PEDIDOS) por String pq tava dando erro no alembic migration. 
+ #Deletei o arquivo de versão, o arquivo de versao do cache e o banco e criei tudo de novo.
+ #Se quiser usar o ChoiceType, tem que criar a migration manualmente.
+ #alemc revision --autogenerate -m "...." para editar a versão // sempre que editar o BD e foi fazer a migration, realiza esse processo
+ #funciona como um versionamento do git
+ #alembic upgrade head para aplicar a migration
 
     id = Column("id", Integer, primary_key=True, autoincrement=True )
-    status = Column("status", ChoiceType(choices=STATUS_PEDIDOS))
+    status = Column("status", String)
     usuario = Column("usuario",ForeignKey("usuarios.id"))
     preco = Column("preco", Float)
     #itens...
