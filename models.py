@@ -48,7 +48,7 @@ class Pedido(Base):
     def __init__(self, usuario, status="PENDENTE", preco=0):
         self.usuario = usuario
         self.status = status
-        self.preco = preco 
+        self.preco = preco
 
 class ItensPedido(Base):
     __tablename__ = "itens_pedido"
