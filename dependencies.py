@@ -3,7 +3,7 @@ from models import Usuario
 from models import db
 from sqlalchemy.orm import sessionmaker, Session
 from jose import jwt, JWTError
-from main import SECRET_KEY, ALGORITHM
+from main import SECRET_KEY, ALGORITHM, oauth2_schema
 
 def get_session():
     try:
@@ -15,7 +15,7 @@ def get_session():
 
 #try / finally -> garante que a sessão será fechada após o uso
 
-def verificar_token(token, session: Session = Depends(get_session)):
+def verificar_token(token: str = Depends(oauth2_schema), session: Session = Depends(get_session)):
     try:
         dic_info = jwt.decode(token, SECRET_KEY, ALGORITHM)
         id_usuario = dic_info.get("sub")

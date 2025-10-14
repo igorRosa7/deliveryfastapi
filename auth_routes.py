@@ -11,7 +11,7 @@ auth_router = APIRouter(prefix="/auth", tags=["auth"])
 
 def criar_token(id_usuario, duracao_token=timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)):
     data_expiracao = datetime.now(timezone.utc) + duracao_token
-    dic_info = {"sub": id_usuario, "exp": data_expiracao} #sub = dono to token, id do usuario
+    dic_info = {"sub": str(id_usuario), "exp": data_expiracao} #sub = dono to token, id do usuario
     jwt_codificado = jwt.encode(dic_info, SECRET_KEY, ALGORITHM)
     return jwt_codificado
 
@@ -58,7 +58,7 @@ async def login(login_schema: LoginSchema, session: Session = Depends(get_sessio
         refresh_token = criar_token(usuario.id, duracao_token=timedelta(days=7)) #token de 7 dias
         return {"access_token": access_token,
                 "refresh_token": refresh_token,
-                "token_type": "bearer"
+                "token_type": "Bearer"
                 }
     #JWT Bearer
 
